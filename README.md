@@ -3,8 +3,8 @@
 This configuration script has been carried over from previous work with permission by the original author.
 The content has been changed slightly.
 
-*Original work by Ben Gelens*
-https://github.com/bgelens/HybridRunbookWorkerDsc/blob/dev/Examples/FullExamples/2-FullConfigAACompile.ps1
+*Original work by Ben Gelens*<br>
+[https://github.com/bgelens/HybridRunbookWorkerDsc/blob/dev/Examples/FullExamples/2-FullConfigAACompile.ps1](https://github.com/bgelens/HybridRunbookWorkerDsc/blob/dev/Examples/FullExamples/2-FullConfigAACompile.ps1)
 
 ## Contributing
 
