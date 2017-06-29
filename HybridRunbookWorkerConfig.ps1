@@ -25,7 +25,7 @@ configuration HybridRunbookWorkerConfig
             Ensure = "Present"
             Path = $OIPackageLocalPath
             Name = "Microsoft Monitoring Agent"
-            ProductId = "E854571C-3C01-4128-99B8-52512F44E5E9"
+            ProductId = "6D765BA4-C090-4C41-99AD-9DAF927E53A5"
             Arguments = '/Q /C:"setup.exe /qn ADD_OPINSIGHTS_WORKSPACE=1 OPINSIGHTS_WORKSPACE_ID=' + 
                 $OmsWorkspaceID + ' OPINSIGHTS_WORKSPACE_KEY=' + 
                     $OmsWorkspaceKey + ' AcceptEndUserLicenseAgreement=1"'
