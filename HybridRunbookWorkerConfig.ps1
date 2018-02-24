@@ -1,60 +1,101 @@
+
+<#PSScriptInfo
+
+.VERSION 0.1.0
+
+.GUID a62fccd2-e507-43f9-b29b-1a1d6ef8c337
+
+.AUTHOR Ben Gelens, Michael Greene
+
+.COMPANYNAME Microsoft
+
+.COPYRIGHT 
+
+.TAGS DSCConfiguration
+
+.LICENSEURI https://github.com/Microsoft/HybridRunbookWorkerConfig/blob/master/LICENSE
+
+.PROJECTURI https://github.com/Microsoft/HybridRunbookWorkerConfig
+
+.ICONURI https://github.com/Microsoft/HybridRunbookWorkerConfig/blob/master/Icon.png
+
+.EXTERNALMODULEDEPENDENCIES 
+
+.REQUIREDSCRIPTS 
+
+.EXTERNALSCRIPTDEPENDENCIES 
+
+.RELEASENOTES
+https://github.com/Microsoft/HybridRunbookWorkerConfig/blob/master/README.md#releasenotes
+
+.PRIVATEDATA 2016-Datacenter-Server-Core
+
+#>
+
+#Requires -Module @{ModuleName = 'HybridRunbookWorkerDSC'; ModuleVersion = '1.0.0.0'}
+#Requires -Module @{ModuleName = 'xPSDesiredStateConfiguration'; ModuleVersion = '8.0.0.0'}
+
+<# 
+
+.DESCRIPTION 
+ Automatically onboard node to OMS and Azure Automation 
+
+#> 
+
 configuration HybridRunbookWorkerConfig
 {
 
-    Import-DscResource -ModuleName xPSDesiredStateConfiguration,HybridRunbookWorkerDsc
+Import-DscResource -ModuleName @{ModuleName='xPSDesiredStateConfiguration';ModuleVersion='8.0.0.0'}
+Import-DscResource -ModuleName @{ModuleName='HybridRunbookWorkerDsc';ModuleVersion='1.0.0.0'}
 
-    $OmsWorkspaceId = Get-AutomationVariable WorkspaceID
-    $OmsWorkspaceKey = Get-AutomationVariable WorkspaceKey
-    $AutomationEndpoint = Get-AutomationVariable AutomationEndpoint
-    $AutomationKey = Get-AutomationPSCredential AutomationCredential
+$OmsWorkspaceId = Get-AutomationVariable WorkspaceID
+$OmsWorkspaceKey = Get-AutomationVariable WorkspaceKey
+$AutomationEndpoint = Get-AutomationVariable AutomationEndpoint
+$AutomationKey = Get-AutomationPSCredential AutomationCredential
 
-    $OIPackageLocalPath = "C:\MMASetup-AMD64.exe"
+$OIPackageLocalPath = "C:\MMASetup-AMD64.exe"
 
-    Node $AllNodes.NodeName
+    # Download a package
+    xRemoteFile OIPackage
     {
-        # Download a package
-        xRemoteFile OIPackage
-        {
-            Uri = "https://opsinsight.blob.core.windows.net/publicfiles/MMASetup-AMD64.exe"
-            DestinationPath = $OIPackageLocalPath
-        }
+        Uri = "https://opsinsight.blob.core.windows.net/publicfiles/MMASetup-AMD64.exe"
+        DestinationPath = $OIPackageLocalPath
+    }
 
-        # Application, requires reboot. Allow reboot in meta config
-        Package OI
-        {
-            Ensure = "Present"
-            Path = $OIPackageLocalPath
-            Name = "Microsoft Monitoring Agent"
-            ProductId = "6D765BA4-C090-4C41-99AD-9DAF927E53A5"
-            Arguments = '/Q /C:"setup.exe /qn ADD_OPINSIGHTS_WORKSPACE=1 OPINSIGHTS_WORKSPACE_ID=' + 
-                $OmsWorkspaceID + ' OPINSIGHTS_WORKSPACE_KEY=' + 
-                    $OmsWorkspaceKey + ' AcceptEndUserLicenseAgreement=1"'
-            DependsOn = "[xRemoteFile]OIPackage"
-        }
-        
-        # Service state
-        Service OIService
-        {
-            Name = "HealthService"
-            State = "Running"
-            DependsOn = "[Package]OI"
-        }
+    # Application, requires reboot. Allow reboot in meta config
+    Package OI
+    {
+        Ensure = "Present"
+        Path = $OIPackageLocalPath
+        Name = "Microsoft Monitoring Agent"
+        ProductId = "6D765BA4-C090-4C41-99AD-9DAF927E53A5"
+        Arguments = '/Q /C:"setup.exe /qn ADD_OPINSIGHTS_WORKSPACE=1 OPINSIGHTS_WORKSPACE_ID=' + 
+            $OmsWorkspaceID + ' OPINSIGHTS_WORKSPACE_KEY=' + 
+                $OmsWorkspaceKey + ' AcceptEndUserLicenseAgreement=1"'
+        DependsOn = "[xRemoteFile]OIPackage"
+    }
+    
+    Service OIService
+    {
+        Name = "HealthService"
+        State = "Running"
+        DependsOn = "[Package]OI"
+    }
 
-        WaitForHybridRegistrationModule ModuleWait
-        {
-            IsSingleInstance = 'Yes'
-            RetryIntervalSec = 3
-            RetryCount = 2
-            DependsOn = '[Package]OI'
-        }
+    WaitForHybridRegistrationModule ModuleWait
+    {
+        IsSingleInstance = 'Yes'
+        RetryIntervalSec = 3
+        RetryCount = 2
+        DependsOn = '[Package]OI'
+    }
 
-        HybridRunbookWorker Onboard
-        {
-            Ensure    = 'Present'
-            Endpoint  = $AutomationEndpoint
-            Token     = $AutomationKey
-            GroupName = $Node.NodeName
-            DependsOn = '[WaitForHybridRegistrationModule]ModuleWait'
-        }
+    HybridRunbookWorker Onboard
+    {
+        Ensure    = 'Present'
+        Endpoint  = $AutomationEndpoint
+        Token     = $AutomationKey
+        GroupName = 'Managed'
+        DependsOn = '[WaitForHybridRegistrationModule]ModuleWait'
     }
 }
