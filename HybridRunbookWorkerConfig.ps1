@@ -38,7 +38,40 @@ https://github.com/Microsoft/HybridRunbookWorkerConfig/blob/master/README.md#rel
 <# 
 
 .DESCRIPTION 
- Automatically onboard node to OMS and Azure Automation 
+ Automatically onboard node to OMS and Azure Automation.
+
+Required variables in Automation service:
+  - OMS Workspace ID as Variable: WorkspaceID
+  - OMS Workspace Key as Variable: WorkspaceKey(encrypted)
+  - Automation Account Endpoint URL as Variable: AutomationEndpoint
+  - Automation Account Primary or Secondary Key as Credential: AutomationCredential
+    - Username can be any value. Key as password.
+
+
+ Requires the following modules be imported from the PowerShell Gallery:
+  - HybridRunbookerWorkerDSC
+  - xPSDesiredStateConfiguration
+
+ To compile using Azure PowerShell:
+    Add-AzureRMAccount (Login)
+    
+    $ConfigurationData = @{
+        AllNodes = @(
+            @{
+                NodeName = 'Localhost'
+                PSDscAllowPlainTextPassword = $true
+            }
+        )
+    }
+
+    $CompileParams = @{
+        ResourceGroupName     = <ResourceGroupName>
+        AutomationAccountName = <AutomationAccountName>
+        ConfigurationName     = HybridRunbookWorkerConfig
+        ConfigurationData     = $ConfigurationData
+    }
+
+    Start-AzureRmAutomationDscCompilationJob @CompileParams
 
 #> 
 
