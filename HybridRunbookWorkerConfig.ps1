@@ -17,7 +17,7 @@
 
 .PROJECTURI https://github.com/Microsoft/HybridRunbookWorkerConfig
 
-.ICONURI https://github.com/Microsoft/HybridRunbookWorkerConfig/blob/master/Icon.png
+.ICONURI https://raw.githubusercontent.com/Microsoft/HybridRunbookWorkerConfig/master/icon.png
 
 .EXTERNALMODULEDEPENDENCIES 
 
