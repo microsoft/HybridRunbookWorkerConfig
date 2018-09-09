@@ -1,5 +1,7 @@
 # Hybrid Runbook Worker Configuration
 
+[![Build status](https://ci.appveyor.com/api/projects/status/7yqwn3ig3t4fs8jt?svg=true)](https://ci.appveyor.com/project/mgreenegit/hybridrunbookworkerconfig)
+
 This configuration script has been carried over from previous work with permission by the original author.
 The content has been changed slightly.
 
@@ -12,6 +14,12 @@ The work remaining for this script includes:
 
 - Documentation including release notes
 - Integration/Acceptance tests specific to the scenario
+
+## Release Notes
+
+0.2.x - 9/9/2018 - minor release updating the metadata in the script to be compatible with
+changes to the Azure Automation portal user interface.
+Also updating build script to automatically publish master branch when all tests pass.
 
 ## Contributing
 

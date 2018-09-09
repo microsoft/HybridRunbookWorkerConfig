@@ -15,6 +15,8 @@ environment:
   ProjectName: $(APPVEYOR_PROJECT_NAME)
   ProjectID: $(APPVEYOR_POJECT_ID)
   BuildID: $(APPVEYOR_BUILD_ID)
+  APIKEY:
+    secure: xQyAvpwa7/xHj0aSKBT81UeFjHWiG09U+nE5bobRvE3iCb9rG27NdDlR8XT1EavM
 matrix:
   fast_finish: true
 install:
@@ -37,3 +39,8 @@ build_script:
         else {
           Invoke-Build -File .\DscConfiguration.Tests\.build.ps1 -Summary
         }
+
+deploy_script:
+  - ps: |
+      write-host "the current branch is $env:APPVEYOR_REPO_BRANCH"
+      if($env:APPVEYOR_REPO_BRANCH -eq 'Master'){Publish-Module -NuGetAPIKey $env:APIKEY -Path $pwd}
