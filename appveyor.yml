@@ -44,7 +44,7 @@ before_deploy:
   - ps: |
       # Update version
       $scriptFile = Join-Path $pwd "$env:APPVEYOR_PROJECT_NAME.ps1"
-      (Get-Content $scriptFile -Raw).Replace("0.n.appveyorBuild", $env:APPVEYOR_BUILD_VERSION) | Set-Content $scriptFile
+      (Get-Content $scriptFile -Raw).Replace(".VERSION 0.1.0", ".VERSION $env:APPVEYOR_BUILD_VERSION") | Set-Content $scriptFile
 
 deploy_script:
   - ps: |
