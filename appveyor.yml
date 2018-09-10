@@ -1,7 +1,7 @@
 version: 0.2.{build}
 clone_folder: c:\projects\$(APPVEYOR_PROJECT_NAME)
 environment:
-  RequiredModules: ['@{name="HybridRunbookWorkerDSC";version:"1.0.0.2"}','@{name="xPSDesiredStateConfiguration";version="8.4.0"}']
+  RequiredModules: 'HybridRunbookWorkerDSC=1.0.0.2;xPSDesiredStateConfiguration=8.4.0'
   TestResultsUploadURI: https://ci.appveyor.com/api/testresults/nunit/$(APPVEYOR_JOB_ID)
   ApplicationID:
     secure: wuGCR3qLSjkdC/Ef1kVoMogStg4jsG9YguYhaAMiVgepHyIiwWgKA3FG/FTuEBZn
@@ -27,8 +27,9 @@ install:
         Install-Module InvokeBuild,Pester,PSScriptAnalyzer -Scope CurrentUser -SkipPublisherCheck -Repository PSGallery -Force
 
         # Load required modules from gallery
-        foreach ($module in $env:RequiredModules {
-            Install-Module -name $module.name -requiredVersion $module.version -Repository PSGallery -Scope CurrentUser -Force
+        $requiredModules = $env:RequiredModules -split ';' | convertfrom-stringdata
+        foreach ($module in $requiredModules.keys) {
+            Install-Module -name $module -requiredVersion $requireMdoules.$module -Repository PSGallery -Scope CurrentUser -Force
         }
 build_script:
   - ps: |
