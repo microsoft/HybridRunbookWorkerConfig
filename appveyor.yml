@@ -29,7 +29,7 @@ install:
         # Load required modules from gallery
         $requiredModules = $env:RequiredModules -split ';' | convertfrom-stringdata
         foreach ($module in $requiredModules.keys) {
-            Install-Module -name $module -requiredVersion $requireMdoules.$module -Repository PSGallery -Scope CurrentUser -Force
+            Install-Module -name $module -requiredVersion $requiredModules.$module -Repository PSGallery -Scope CurrentUser -Force
         }
 build_script:
   - ps: |
