@@ -38,7 +38,13 @@ https://github.com/Microsoft/HybridRunbookWorkerConfig/blob/master/README.md#rel
 <# 
 
 .DESCRIPTION 
- Automatically onboard node to OMS and Azure Automation.
+ Automatically install Azure Automation hybrid runbook worker.
+
+#> 
+
+<#
+
+.QUICKSTART
 
 Required variables in Automation service:
   - OMS Workspace ID as Variable: WorkspaceID
@@ -73,7 +79,7 @@ Required variables in Automation service:
 
     Start-AzureRmAutomationDscCompilationJob @CompileParams
 
-#> 
+#>
 
 configuration HybridRunbookWorkerConfig
 {
