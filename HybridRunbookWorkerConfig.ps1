@@ -78,8 +78,8 @@ Required variables in Automation service:
 configuration HybridRunbookWorkerConfig
 {
 
-Import-DscResource -ModuleName @{ModuleName='xPSDesiredStateConfiguration';ModuleVersion='8.0.0.0'}
-Import-DscResource -ModuleName @{ModuleName='HybridRunbookWorkerDsc';ModuleVersion='1.0.0.0'}
+Import-DscResource -ModuleName @{ModuleName='xPSDesiredStateConfiguration';ModuleVersion='8.4.0.0'}
+Import-DscResource -ModuleName @{ModuleName='HybridRunbookWorkerDsc';ModuleVersion='1.0.0.2'}
 
 $OmsWorkspaceId = Get-AutomationVariable WorkspaceID
 $OmsWorkspaceKey = Get-AutomationVariable WorkspaceKey
