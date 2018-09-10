@@ -1,7 +1,7 @@
 
 <#PSScriptInfo
 
-.VERSION 0.2.3
+.VERSION 0.2.4
 
 .GUID a62fccd2-e507-43f9-b29b-1a1d6ef8c337
 
@@ -92,48 +92,53 @@ $AutomationEndpoint = Get-AutomationVariable AutomationEndpoint
 $AutomationKey = Get-AutomationPSCredential AutomationCredential
 
 $OIPackageLocalPath = "C:\MMASetup-AMD64.exe"
-
-    # Download a package
-    xRemoteFile OIPackage
-    {
-        Uri = "https://opsinsight.blob.core.windows.net/publicfiles/MMASetup-AMD64.exe"
-        DestinationPath = $OIPackageLocalPath
-    }
-
-    # Application, requires reboot. Allow reboot in meta config
-    Package OI
-    {
-        Ensure = "Present"
-        Path = $OIPackageLocalPath
-        Name = "Microsoft Monitoring Agent"
-        ProductId = "EE0183F4-3BF8-4EC8-8F7C-44D3BBE6FDF0"
-        Arguments = '/Q /C:"setup.exe /qn ADD_OPINSIGHTS_WORKSPACE=1 OPINSIGHTS_WORKSPACE_ID=' + 
-            $OmsWorkspaceID + ' OPINSIGHTS_WORKSPACE_KEY=' + 
-                $OmsWorkspaceKey + ' AcceptEndUserLicenseAgreement=1"'
-        DependsOn = "[xRemoteFile]OIPackage"
-    }
     
-    Service OIService
+    node localhost
     {
-        Name = "HealthService"
-        State = "Running"
-        DependsOn = "[Package]OI"
-    }
-
-    WaitForHybridRegistrationModule ModuleWait
-    {
-        IsSingleInstance = 'Yes'
-        RetryIntervalSec = 3
-        RetryCount = 2
-        DependsOn = '[Package]OI'
-    }
-
-    HybridRunbookWorker Onboard
-    {
-        Ensure    = 'Present'
-        Endpoint  = $AutomationEndpoint
-        Token     = $AutomationKey
-        GroupName = 'Managed'
-        DependsOn = '[WaitForHybridRegistrationModule]ModuleWait'
+    
+      # Download a package
+      xRemoteFile OIPackage
+      {
+          Uri = "https://opsinsight.blob.core.windows.net/publicfiles/MMASetup-AMD64.exe"
+          DestinationPath = $OIPackageLocalPath
+      }
+  
+      # Application, requires reboot. Allow reboot in meta config
+      Package OI
+      {
+          Ensure = "Present"
+          Path = $OIPackageLocalPath
+          Name = "Microsoft Monitoring Agent"
+          ProductId = "EE0183F4-3BF8-4EC8-8F7C-44D3BBE6FDF0"
+          Arguments = '/Q /C:"setup.exe /qn ADD_OPINSIGHTS_WORKSPACE=1 OPINSIGHTS_WORKSPACE_ID=' + 
+              $OmsWorkspaceID + ' OPINSIGHTS_WORKSPACE_KEY=' + 
+                  $OmsWorkspaceKey + ' AcceptEndUserLicenseAgreement=1"'
+          DependsOn = "[xRemoteFile]OIPackage"
+      }
+      
+      Service OIService
+      {
+          Name = "HealthService"
+          State = "Running"
+          DependsOn = "[Package]OI"
+      }
+  
+      WaitForHybridRegistrationModule ModuleWait
+      {
+          IsSingleInstance = 'Yes'
+          RetryIntervalSec = 3
+          RetryCount = 2
+          DependsOn = '[Package]OI'
+      }
+  
+      HybridRunbookWorker Onboard
+      {
+          Ensure    = 'Present'
+          Endpoint  = $AutomationEndpoint
+          Token     = $AutomationKey
+          GroupName = 'Managed'
+          DependsOn = '[WaitForHybridRegistrationModule]ModuleWait'
+      }
     }
 }
+  
