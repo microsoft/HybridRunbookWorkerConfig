@@ -32,8 +32,8 @@ https://github.com/Microsoft/HybridRunbookWorkerConfig/blob/master/README.md#rel
 
 #>
 
-#Requires -Module @{ModuleName = 'HybridRunbookWorkerDSC'; ModuleVersion = '1.0.0.0'}
-#Requires -Module @{ModuleName = 'xPSDesiredStateConfiguration'; ModuleVersion = '8.0.0.0'}
+#Requires -Module @{ModuleName = 'HybridRunbookWorkerDSC'; ModuleVersion = '1.0.0.2'}
+#Requires -Module @{ModuleName = 'xPSDesiredStateConfiguration'; ModuleVersion = '8.4.0.0'}
 
 <# 
 
