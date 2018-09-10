@@ -39,7 +39,6 @@ https://github.com/Microsoft/HybridRunbookWorkerConfig/blob/master/README.md#rel
 
 .DESCRIPTION 
  Automatically install Azure Automation hybrid runbook worker.
-
 #> 
 
 <#
