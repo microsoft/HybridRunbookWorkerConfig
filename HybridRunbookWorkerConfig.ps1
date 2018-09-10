@@ -1,7 +1,7 @@
 
 <#PSScriptInfo
 
-.VERSION 0.1.0
+.VERSION 0.1.2
 
 .GUID a62fccd2-e507-43f9-b29b-1a1d6ef8c337
 
@@ -107,7 +107,7 @@ $OIPackageLocalPath = "C:\MMASetup-AMD64.exe"
         Ensure = "Present"
         Path = $OIPackageLocalPath
         Name = "Microsoft Monitoring Agent"
-        ProductId = "6D765BA4-C090-4C41-99AD-9DAF927E53A5"
+        ProductId = "EE0183F4-3BF8-4EC8-8F7C-44D3BBE6FDF0"
         Arguments = '/Q /C:"setup.exe /qn ADD_OPINSIGHTS_WORKSPACE=1 OPINSIGHTS_WORKSPACE_ID=' + 
             $OmsWorkspaceID + ' OPINSIGHTS_WORKSPACE_KEY=' + 
                 $OmsWorkspaceKey + ' AcceptEndUserLicenseAgreement=1"'
