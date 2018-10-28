@@ -109,7 +109,7 @@ $OIPackageLocalPath = "C:\MMASetup-AMD64.exe"
           Ensure = "Present"
           Path = $OIPackageLocalPath
           Name = "Microsoft Monitoring Agent"
-          ProductId = "EE0183F4-3BF8-4EC8-8F7C-44D3BBE6FDF0"
+          ProductId = "E854571C-3C01-4128-99B8-52512F44E5E9"
           Arguments = '/Q /C:"setup.exe /qn ADD_OPINSIGHTS_WORKSPACE=1 OPINSIGHTS_WORKSPACE_ID=' + 
               $OmsWorkspaceID + ' OPINSIGHTS_WORKSPACE_KEY=' + 
                   $OmsWorkspaceKey + ' AcceptEndUserLicenseAgreement=1"'
