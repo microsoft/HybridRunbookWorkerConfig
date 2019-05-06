@@ -1,7 +1,7 @@
 
 <#PSScriptInfo
 
-.VERSION 0.2.4
+.VERSION 0.2.5
 
 .GUID a62fccd2-e507-43f9-b29b-1a1d6ef8c337
 
@@ -33,7 +33,7 @@ https://github.com/Microsoft/HybridRunbookWorkerConfig/blob/master/README.md#rel
 #>
 
 #Requires -Module @{ModuleName = 'HybridRunbookWorkerDSC'; ModuleVersion = '1.0.0.2'}
-#Requires -Module @{ModuleName = 'xPSDesiredStateConfiguration'; ModuleVersion = '8.4.0.0'}
+#Requires -Module @{ModuleName = 'xPSDesiredStateConfiguration'; ModuleVersion = '8.6.0.0'}
 
 <# 
 
@@ -83,7 +83,7 @@ Required variables in Automation service:
 configuration HybridRunbookWorkerConfig
 {
 
-Import-DscResource -ModuleName @{ModuleName='xPSDesiredStateConfiguration';ModuleVersion='8.4.0.0'}
+Import-DscResource -ModuleName @{ModuleName='xPSDesiredStateConfiguration';ModuleVersion='8.6.0.0'}
 Import-DscResource -ModuleName @{ModuleName='HybridRunbookWorkerDsc';ModuleVersion='1.0.0.2'}
 
 $OmsWorkspaceId = Get-AutomationVariable WorkspaceID
