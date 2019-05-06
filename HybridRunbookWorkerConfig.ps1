@@ -127,7 +127,7 @@ $OIPackageLocalPath = "C:\MMASetup-AMD64.exe"
       {
           IsSingleInstance = 'Yes'
           RetryIntervalSec = 3
-          RetryCount = 2
+          RetryCount = 40
           DependsOn = '[Package]OI'
       }
   
