@@ -1,7 +1,7 @@
 
 <#PSScriptInfo
 
-.VERSION 0.2.5
+.VERSION 0.2.6
 
 .GUID a62fccd2-e507-43f9-b29b-1a1d6ef8c337
 
@@ -33,7 +33,7 @@ https://github.com/Microsoft/HybridRunbookWorkerConfig/blob/master/README.md#rel
 #>
 
 #Requires -Module @{ModuleName = 'HybridRunbookWorkerDSC'; ModuleVersion = '1.0.0.2'}
-#Requires -Module @{ModuleName = 'xPSDesiredStateConfiguration'; ModuleVersion = '8.6.0.0'}
+#Requires -Module @{ModuleName = 'xPSDesiredStateConfiguration'; ModuleVersion = '8.7.0.0'}
 
 <# 
 
@@ -83,7 +83,7 @@ Required variables in Automation service:
 configuration HybridRunbookWorkerConfig
 {
 
-Import-DscResource -ModuleName @{ModuleName='xPSDesiredStateConfiguration';ModuleVersion='8.6.0.0'}
+Import-DscResource -ModuleName @{ModuleName='xPSDesiredStateConfiguration';ModuleVersion='8.7.0.0'}
 Import-DscResource -ModuleName @{ModuleName='HybridRunbookWorkerDsc';ModuleVersion='1.0.0.2'}
 
 $OmsWorkspaceId = Get-AutomationVariable WorkspaceID
@@ -109,7 +109,7 @@ $OIPackageLocalPath = "C:\MMASetup-AMD64.exe"
           Ensure = "Present"
           Path = $OIPackageLocalPath
           Name = "Microsoft Monitoring Agent"
-          ProductId = "EE0183F4-3BF8-4EC8-8F7C-44D3BBE6FDF0"
+          ProductId = "E854571C-3C01-4128-99B8-52512F44E5E9"
           Arguments = '/Q /C:"setup.exe /qn ADD_OPINSIGHTS_WORKSPACE=1 OPINSIGHTS_WORKSPACE_ID=' + 
               $OmsWorkspaceID + ' OPINSIGHTS_WORKSPACE_KEY=' + 
                   $OmsWorkspaceKey + ' AcceptEndUserLicenseAgreement=1"'
