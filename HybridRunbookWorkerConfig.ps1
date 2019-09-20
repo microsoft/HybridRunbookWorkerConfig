@@ -33,7 +33,7 @@ https://github.com/Microsoft/HybridRunbookWorkerConfig/blob/master/README.md#rel
 #>
 
 #Requires -Module @{ModuleName = 'HybridRunbookWorkerDSC'; ModuleVersion = '1.0.0.2'}
-#Requires -Module @{ModuleName = 'xPSDesiredStateConfiguration'; ModuleVersion = '8.7.0.0'}
+#Requires -Module @{ModuleName = 'xPSDesiredStateConfiguration'; ModuleVersion = '8.10.0.0'}
 
 <# 
 
@@ -83,7 +83,7 @@ Required variables in Automation service:
 configuration HybridRunbookWorkerConfig
 {
 
-Import-DscResource -ModuleName @{ModuleName='xPSDesiredStateConfiguration';ModuleVersion='8.7.0.0'}
+Import-DscResource -ModuleName @{ModuleName='xPSDesiredStateConfiguration';ModuleVersion='8.10.0.0'}
 Import-DscResource -ModuleName @{ModuleName='HybridRunbookWorkerDsc';ModuleVersion='1.0.0.2'}
 
 $OmsWorkspaceId = Get-AutomationVariable WorkspaceID
@@ -99,7 +99,7 @@ $OIPackageLocalPath = "C:\MMASetup-AMD64.exe"
       # Download a package
       xRemoteFile OIPackage
       {
-          Uri = "https://opsinsight.blob.core.windows.net/publicfiles/MMASetup-AMD64.exe"
+          Uri = "http://download.microsoft.com/download/2/B/5/2B59B9A7-37CC-4FC5-BB4E-C7A69FE75DCF/MMASetup-AMD64.exe"
           DestinationPath = $OIPackageLocalPath
       }
   
@@ -109,7 +109,7 @@ $OIPackageLocalPath = "C:\MMASetup-AMD64.exe"
           Ensure = "Present"
           Path = $OIPackageLocalPath
           Name = "Microsoft Monitoring Agent"
-          ProductId = "E854571C-3C01-4128-99B8-52512F44E5E9"
+          ProductId = "43176309-DADC-4C94-9719-DDB6BC1AFECA"
           Arguments = '/Q /C:"setup.exe /qn ADD_OPINSIGHTS_WORKSPACE=1 OPINSIGHTS_WORKSPACE_ID=' + 
               $OmsWorkspaceID + ' OPINSIGHTS_WORKSPACE_KEY=' + 
                   $OmsWorkspaceKey + ' AcceptEndUserLicenseAgreement=1"'
