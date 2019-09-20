@@ -99,7 +99,7 @@ $OIPackageLocalPath = "C:\MMASetup-AMD64.exe"
       # Download a package
       xRemoteFile OIPackage
       {
-          Uri = "http://download.microsoft.com/download/2/B/5/2B59B9A7-37CC-4FC5-BB4E-C7A69FE75DCF/MMASetup-AMD64.exe"
+          Uri = 'http://download.microsoft.com/download/2/B/5/2B59B9A7-37CC-4FC5-BB4E-C7A69FE75DCF/MMASetup-AMD64.exe'
           DestinationPath = $OIPackageLocalPath
       }
   
